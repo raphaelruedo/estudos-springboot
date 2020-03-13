@@ -16,12 +16,12 @@ public class PersonController {
     @Autowired
     private PersonRepository _personRepository;
 
-    @RequestMapping(value = "v1/persons", method = RequestMethod.GET)
+    @RequestMapping(value = "api/v1/persons", method = RequestMethod.GET)
     public List<Person> Get() {
         return _personRepository.findAll();
     }
 
-    @RequestMapping(value = "v1/persons/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "api/v1/persons/{id}", method = RequestMethod.GET)
     public ResponseEntity<Person> GetById(@PathVariable(value = "id") long id)
     {
         Optional<Person> person = _personRepository.findById(id);
@@ -31,13 +31,13 @@ public class PersonController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "v1/persons", method =  RequestMethod.POST)
+    @RequestMapping(value = "api/v1/persons", method =  RequestMethod.POST)
     public Person Post(@Valid @RequestBody Person person)
     {
         return _personRepository.save(person);
     }
 
-    @RequestMapping(value = "v1/persons/{id}", method =  RequestMethod.PUT)
+    @RequestMapping(value = "api/v1/persons/{id}", method =  RequestMethod.PUT)
     public ResponseEntity<Person> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Person newPerson)
     {
         Optional<Person> oldPerson = _personRepository.findById(id);
@@ -51,7 +51,7 @@ public class PersonController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "v1/persons/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "api/v1/persons/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id)
     {
         Optional<Person> person = _personRepository.findById(id);
