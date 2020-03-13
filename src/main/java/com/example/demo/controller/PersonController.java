@@ -14,17 +14,17 @@ import java.util.Optional;
 @RestController
 public class PersonController {
     @Autowired
-    private PersonRepository _personController;
+    private PersonRepository _personRepository;
 
     @RequestMapping(value = "v1/persons", method = RequestMethod.GET)
     public List<Person> Get() {
-        return _personController.findAll();
+        return _personRepository.findAll();
     }
 
     @RequestMapping(value = "v1/persons/{id}", method = RequestMethod.GET)
     public ResponseEntity<Person> GetById(@PathVariable(value = "id") long id)
     {
-        Optional<Person> person = _personController.findById(id);
+        Optional<Person> person = _personRepository.findById(id);
         if(person.isPresent())
             return new ResponseEntity<Person>(person.get(), HttpStatus.OK);
         else
@@ -34,17 +34,17 @@ public class PersonController {
     @RequestMapping(value = "v1/persons", method =  RequestMethod.POST)
     public Person Post(@Valid @RequestBody Person person)
     {
-        return _personController.save(person);
+        return _personRepository.save(person);
     }
 
     @RequestMapping(value = "v1/persons/{id}", method =  RequestMethod.PUT)
     public ResponseEntity<Person> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Person newPerson)
     {
-        Optional<Person> oldPerson = _personController.findById(id);
+        Optional<Person> oldPerson = _personRepository.findById(id);
         if(oldPerson.isPresent()){
             Person person = oldPerson.get();
             person.setName(newPerson.getName());
-            _personController.save(person);
+            _personRepository.save(person);
             return new ResponseEntity<Person>(person, HttpStatus.OK);
         }
         else
@@ -54,9 +54,9 @@ public class PersonController {
     @RequestMapping(value = "v1/persons/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> Delete(@PathVariable(value = "id") long id)
     {
-        Optional<Person> person = _personController.findById(id);
+        Optional<Person> person = _personRepository.findById(id);
         if(person.isPresent()){
-            _personController.delete(person.get());
+            _personRepository.delete(person.get());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         else
